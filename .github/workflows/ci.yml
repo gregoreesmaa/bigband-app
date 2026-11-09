@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shared-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Shared logic tests (JVM)
+        run: ./gradlew :shared:jvmTest
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Android debug build
+        run: ./gradlew :androidApp:assembleDebug
+
+  apple-syntax:
+    # Parse-only check: validates Swift syntax without resolving `import
+    # shared` (the framework is built on a Mac during Xcode integration).
+    # Full typecheck + device builds happen in Xcode — see iosApp/README.md.
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift syntax check (iOS + watchOS)
+        run: xcrun swiftc -parse iosApp/BigBand/*.swift watchApp/WatchApp/*.swift && echo "swift parse OK"

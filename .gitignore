@@ -1,0 +1,30 @@
+# Gradle / Android
+.gradle/
+build/
+local.properties
+*.ap_
+*.aab
+*.apk
+
+# Kotlin / KMP
+kotlin-js-store/
+*.klib
+xcframework/
+
+# Xcode / Apple
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
